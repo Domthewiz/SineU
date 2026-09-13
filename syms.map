@@ -1,5 +1,7 @@
 @addresses_from "00050000-10101D00" // US v1.3.0 (v64)
 
+// ActorBgCollisionCheck
+    _ZN21ActorBgCollisionCheck15checkWaterDepthEffh = 0x021905C8;
 // Bg
     _ZN2Bg9sInstanceE = 0x101DAB94;
     
@@ -16,6 +18,13 @@
     _ZN5WaterC1ERK16ActorCreateParam = 0x026F7C90;
     _ZN5Water9sTypeInfoE = 0x100FE43C;
     
+// LiftNormalModeDraw
+    _ZN19LiftNormalModelDraw4initEv = 0x027BE110;
+    _ZN19LiftNormalModelDraw4moveERKN4sead7Vector3IfEEf = 0x027BE428;
+    _ZN19LiftNormalModelDraw4drawEv = 0x027BE4FC;
+
+// ActorAdditionalHeap
+    _ZN19ActorAdditionalHeap7destroyEv = 0x02002C54;
 
 // Poison
     _ZN6PoisonC1ERK16ActorCreateParam = 0x026F5F70;

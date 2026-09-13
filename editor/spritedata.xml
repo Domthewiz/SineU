@@ -400,4 +400,14 @@
 			<entry value="15">140</entry>
 		</list>
 	</sprite>
+	<sprite string_id="SineU:platform_wave" name="Wave Platform">
+        <list nybble="6" title="Platform Type">
+            <entry value="0">Wood</entry>
+            <entry value="1">Stone</entry>
+            <entry value="3">Bolt Platform</entry>
+            <entry value="7">Wood Snow</entry>
+            <entry value="8">Cloud</entry>
+        </list>
+        <value nybble="12" title="Width"/>
+    </sprite>
 </sprites>

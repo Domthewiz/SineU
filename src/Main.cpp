@@ -1,4 +1,5 @@
 #include "SineU/map_obj/Wave.h"
+#include "actor/Actor.h"
 #include <telkin/Print.h>
 #include <SineU/SineU.h>
 #include <SineU/actor/BgActorBase.h>
@@ -142,7 +143,7 @@ static void activateWave(BgActorBase* _this, Bg::WaveType type) {
             break;
         }
     }
-    
+
     _this->getWave().updateWaveCollisions();
 }
 
