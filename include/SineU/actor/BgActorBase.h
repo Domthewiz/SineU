@@ -8,11 +8,12 @@
 // This header is kind of cooked because Tsuru was not good.
 class BgActorBase : public ActorMultiState { // Size: 0x11A78
     // Base class for Zone-Wide-Effect actors such as liquids
-    // Also inherited by bump-from-below platform presumably to use the distortion capabilities of TerrainEffects
+    // Also inherited by bump-from-below platform presumably to use the distortion capabilities of Wave
 public:
     BgActorBase(const ActorCreateParam& param);
     virtual ~BgActorBase();
 
+public:
     // Address: 0x026F0E9C
     bool execute() override;
 
@@ -24,6 +25,11 @@ public:
     Wave& getWave()
     {
         return mWave;
+    }
+
+    void setOnlyRenderWaves(bool only_render)
+    {
+        mOnlyRenderWaves = only_render;
     }
 
 protected:
@@ -49,7 +55,7 @@ protected:
     u32                         _1ad4;
     u16                         _1ad8;
     u16                         _1ada;
-    u8                          _1adc;
+    bool                        mOnlyRenderWaves;
     u8                          _1add;
     u8                          _1ade;
     u8                          _1adf;

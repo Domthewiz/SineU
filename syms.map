@@ -4,16 +4,18 @@
     _ZN2Bg9sInstanceE = 0x101DAB94;
     
 // BgActorBase
-    _ZN11BgActorBase7execute = 0x026F0E9C;
+    // _ZN11BgActorBase7execute = 0x026F0E9C;
     _ZN11BgActorBaseD1Ev = 0x026F36E8;
     _ZN11BgActorBase7executeEv = 0x026F0E9C;
 
 // Wave
     _ZN4Wave10updateWaveEv = 0x028B8E64;
-
+    _ZN4Wave20updateWaveCollisionsEv = 0x028B8D5C;
 // Water
     _ZN5WaterC2ERK16ActorCreateParam = 0x026F7C90;
+    _ZN5WaterC1ERK16ActorCreateParam = 0x026F7C90;
     _ZN5Water9sTypeInfoE = 0x100FE43C;
+    
 
 // Poison
     _ZN6PoisonC1ERK16ActorCreateParam = 0x026F5F70;

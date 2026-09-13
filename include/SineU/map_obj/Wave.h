@@ -70,7 +70,7 @@ public:
     }
 
 protected:
-    WaveRenderer* mRenderer;
+    WaveRenderer*                   mRenderer;
     u8                              _4[4]; // Unknown values
     sead::Vector3f                  _8;
     u8                              _14[12];

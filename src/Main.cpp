@@ -2,6 +2,7 @@
 #include <telkin/Print.h>
 #include <SineU/SineU.h>
 #include <SineU/actor/BgActorBase.h>
+#include <graphics/AnimModel.h>
 #include <map/Bg.h>
 
 red::Registrar* SineU::getRegistrar() {
@@ -16,14 +17,14 @@ class Water : public BgActorBase {
 public:
     // Address: 0x026F7C90
     Water(const ActorCreateParam& param);
-};
 
-class WavyWater : public Water {
-
-public:
-    WavyWater(const ActorCreateParam& param);
-    static Profile* sProfile;
+protected:
+    f32         _11a78;
+    AnimModel*  mModel1;
+    AnimModel*  mModel2;
+    AnimModel*  mModel3;
 };
+static_assert(sizeof(Water) == 0x11A88, "Water size mismatch");
 
 const ActorCreateInfo cCreateInfoWavyWater = {
     .offset_x = 8, .offset_y = 0,
@@ -34,24 +35,25 @@ const ActorCreateInfo cCreateInfoWavyWater = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = static_cast<ActorCreateInfo::Flag>(4) // the old headers are mega cooked so i have to do some shenanigans
+    .flag = ActorCreateInfo::cFlag_IgnoreSpawnRange
 };
 
-Profile* WavyWater::sProfile = SineU::getRegistrar()->newProfile<WavyWater>("water_waves")
+Profile* sProfileWavyWater = SineU::getRegistrar()->newProfile<Water>("water_waves")
     .resources<"obj_waterfull", "obj_waterhalf">(ProfileInfo::cResType_Course)
     .createInfo(&cCreateInfoWavyWater)
     .build();
-
-WavyWater::WavyWater(const ActorCreateParam& param)
-    : Water(param)
-    { }
 
 class Poison : public BgActorBase {
     SEAD_RTTI_OVERRIDE(Poison, BgActorBase);
 public:
     // Address: 0x026F5F70
     Poison(const ActorCreateParam& param);
+
+protected:
+    f32         _11a78;
+    AnimModel*  mModel;
 };
+static_assert(sizeof(Poison) == 0x11A80, "Poison size mismatch");
 
 const ActorCreateInfo cCreateInfoWavyPoison = {
     .offset_x = 8, .offset_y = 0,
@@ -62,7 +64,7 @@ const ActorCreateInfo cCreateInfoWavyPoison = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = static_cast<ActorCreateInfo::Flag>(4) // the old headers are mega cooked so i have to do some shenanigans
+    .flag = ActorCreateInfo::cFlag_IgnoreSpawnRange
 };
 
 Profile* sProfileWavyPoison = SineU::getRegistrar()->newProfile<Poison>("poison_waves")
@@ -76,7 +78,11 @@ class Quicksand : public BgActorBase {
 public:
     // Address: 0x026F6E78
     Quicksand(const ActorCreateParam& param);
+protected:
+    f32         _11a78;
+    AnimModel*  mModel;
 };
+static_assert(sizeof(Quicksand) == 0x11A80, "Quicksand size mismatch");
 
 const ActorCreateInfo cCreateInfoWavyQuicksand = {
     .offset_x = 8, .offset_y = 0,
@@ -87,7 +93,7 @@ const ActorCreateInfo cCreateInfoWavyQuicksand = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = static_cast<ActorCreateInfo::Flag>(4) // the old headers are mega cooked so i have to do some shenanigans
+    .flag = ActorCreateInfo::cFlag_IgnoreSpawnRange
 };
 
 Profile* sProfileWavyQuicksand = SineU::getRegistrar()->newProfile<Quicksand>("quicksand_waves")
@@ -102,7 +108,7 @@ extern "C" void setWaveParam(Wave* _this,
     int major_freq, int minor_freq
 );
 
-static void activateWave(BgActorBase* _this, WaterType type) {
+static void activateWave(BgActorBase* _this, Bg::WaveType type) {
     // Parameters
     setWaveParam(&_this->getWave(),
         _this->getParam1() >> 0x4 & 0xF, _this->getParam1() >> 0x10 & 0xF,
@@ -119,15 +125,15 @@ static void activateWave(BgActorBase* _this, WaterType type) {
     Bg::instance()->setHasLavaWaves(type);
 
     switch (type) {
-        case cWaterType_Water: { 
+        case Bg::WaveType::cWaveType_Water: { 
             _this->getWave().setLiquidCollisionTypeOverride(Wave::cTerrainType_Water);
             break;
         }
-        case cWaterType_Poison: { 
+        case Bg::WaveType::cWaveType_Poison: { 
             _this->getWave().setLiquidCollisionTypeOverride(Wave::cTerrainType_Poison);
             break;
         }
-        case cWaterType_Quicksand: { 
+        case Bg::WaveType::cWaveType_Quicksand: { 
             _this->getWave().setLiquidCollisionTypeOverride(Wave::cTerrainType_Quicksand);
             break;
         }
@@ -136,33 +142,31 @@ static void activateWave(BgActorBase* _this, WaterType type) {
             break;
         }
     }
-
-    _this->getWave().updateWave();
+    
+    _this->getWave().updateWaveCollisions();
 }
 
 void setWaterWaveValues(BgActorBase* _this) {
-    if (_this->getParam1() & 0b1 && _this->getProfile() == WavyWater::sProfile) {
-        activateWave(_this, cWaterType_Water);
+    if (_this->getParam1() & 0b1 && _this->getProfile() == sProfileWavyWater) {
+        activateWave(_this, Bg::WaveType::cWaveType_Water);
     }
 }
 
-// We're not in a class so we must do this manually
-extern "C" u32 _ZN11BgActorBase7execute(BgActorBase*);
 
 u32 Poison_onExecute(BgActorBase* _this) { // Replaces poison water onExecute()
     if (_this->getParam1() & 01 && _this->getProfile() == sProfileWavyPoison) {
-        activateWave(_this, cWaterType_Poison);
+        activateWave(_this, Bg::WaveType::cWaveType_Poison);
     }
 
-    return _ZN11BgActorBase7execute(_this);
+    return _this->BgActorBase::execute();
 }
 
 u32 Quicksand_onExecute(BgActorBase* _this) { // Replaces quicksand onExecute()
     if (_this->getParam1() & 0x1 && _this->getProfile() == sProfileWavyQuicksand) {
-        activateWave(_this, cWaterType_Quicksand);
+        activateWave(_this, Bg::WaveType::cWaveType_Quicksand);
     }
 
-    return _ZN11BgActorBase7execute(_this);
+    return _this->BgActorBase::execute();
 }
 
 #define TELKIN_REGISTERS
@@ -180,7 +184,6 @@ void SetWaterWaveValues() tAssembly(
     cmpwi r0, 0;
     blr;
 )
-
 tBranch(0x026F9444, SetWaterWaveValues, tk::BranchType::bl); // Water::onExecute()
 tPointerCode(0x100FDDDC, Poison_onExecute); // vtable entry for Poison::onExecute
 tPointerCode(0x100FE19C, Quicksand_onExecute); // vtable entry for Quicksand::onExecute

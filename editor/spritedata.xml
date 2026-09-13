@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <sprites>
-	<sprite string_id="SineU:water_waves" name="Water" notes="Based on the lava sprite, there should be nybbles for delays before rising/lowering, but the giant waves don't seem to work on this sprite.">
+	<sprite string_id="SineU:water_waves" name="Water Waves" notes="Based on the lava sprite, there should be nybbles for delays before rising/lowering, but the giant waves don't seem to work on this sprite.">
 		<value nybble="1-2" title="Triggering Event ID" comment="The ID that triggers the water to begin rising or falling." id_type="event" category="events" />
 		<value nybble="3-4" title="Target Event ID" comment="Once the water finishes rising/falling, this event is activated." id_type="event" category="events" />
 		<list bit="18-20" title="Rising Speed" category="behavior" requirednybble="5.1" requiredval="0-7">
