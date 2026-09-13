@@ -90,6 +90,7 @@ bool WavePlatform::execute() {
         mAngle.z() = mTargetRot;
         mOffscreen = false;
     } else {
+        // mPos.y = mTargetPos;
         sead::Mathf::chase(&mPos.y, mTargetPos, 2.0f);
         mAngle.z().chaseRest(mTargetRot, 0x01000000);
     }
@@ -108,59 +109,59 @@ bool WavePlatform::draw() {
     return true;
 }
 
-bool WavePlatform::updateWaveTargets() {
-    f32 leftSurfacePos;
-    getBgCheck()->checkWater(&leftSurfacePos,   mPos + sead::Vector3f(-10.0f, -512.0f, 0.0f), mLayer);
-    f32 middleSurfacePos;
-    getBgCheck()->checkWater(&middleSurfacePos, mPos + sead::Vector3f(0.0f, -512.0f, 0.0f),   mLayer);
-    f32 rightSurfacePos;
-    getBgCheck()->checkWater(&rightSurfacePos,  mPos + sead::Vector3f(10.0f, -512.0f, 0.0f),  mLayer);
-
-    if (leftSurfacePos == -8192 || middleSurfacePos == -8192 || rightSurfacePos == -8192 || leftSurfacePos == 0 || middleSurfacePos == 0 || rightSurfacePos == 0) {
-        return 0;
-    }
-
-    mTargetPos = ((leftSurfacePos + middleSurfacePos + rightSurfacePos) / 3) + 6.0f;
-
-    f32 ydiff1 = middleSurfacePos - leftSurfacePos;
-	f32 ydiff2 = rightSurfacePos - middleSurfacePos;
-	f32 ydiffavg = (ydiff1 + ydiff2) / 2;
-	mTargetRot = (u32)(sead::Mathf::atan2(ydiffavg, 10.0) / (2 * sead::Mathf::pi()) * 0x100000000);
-
-	return true;
-}
-
 // bool WavePlatform::updateWaveTargets() {
-//     float leftedge = BgScrollMgr::instance()->getScreenRect().getMin().x;
+//     f32 leftSurfacePos;
+//     getBgCheck()->checkWater(&leftSurfacePos,   mPos + sead::Vector3f(-10.0f, -512.0f, 0.0f), mLayer);
+//     f32 middleSurfacePos;
+//     getBgCheck()->checkWater(&middleSurfacePos, mPos + sead::Vector3f(0.0f, -512.0f, 0.0f),   mLayer);
+//     f32 rightSurfacePos;
+//     getBgCheck()->checkWater(&rightSurfacePos,  mPos + sead::Vector3f(10.0f, -512.0f, 0.0f),  mLayer);
 
-//     s32 index = (s32)((mPos.x - leftedge) * 0.5 + 0.5);
-//     if (index < 10 - 144 || index >= 1190 + 1140) return false;
-	
-// 	if (index < 10) index += 144;
-// 	if (index >= 1190) index -= 144;
-
-//     if (Bg::instance()->getWaveSurfaceY(index + 10) == -8192.0f) {
-//         index -= 144;
+//     if (leftSurfacePos == -8192 || middleSurfacePos == -8192 || rightSurfacePos == -8192 || leftSurfacePos == 0 || middleSurfacePos == 0 || rightSurfacePos == 0) {
+//         return 0;
 //     }
 
-//     tk::println("bru %u", getBgCheck()->checkWaterDepth(mPos.x + 10.0f, mPos.y + 10.0f, mLayer));
-//     // Bg::instance()->getwa
-//     // getBgCheck()->checkWaterDepth(mPos.x, mPos.y, mLayer);
-//     f32 ypos_1, ypos_m, ypos_r;
-//     ypos_m = Bg::instance()->getWaveSurfaceY(index);
-//     ypos_1 = Bg::instance()->getWaveSurfaceY(index - 10);
-//     ypos_r = Bg::instance()->getWaveSurfaceY(index + 10);
+//     mTargetPos = ((leftSurfacePos + middleSurfacePos + rightSurfacePos) / 3) + 6.0f;
 
-//     mTargetPos = (ypos_1 + ypos_m + ypos_r) / 3 + 4.0;
-
-//     if (ypos_m == -8192 || ypos_1 == -8192 || ypos_r == -8192 || ypos_m == 0 || ypos_1 == 0 || ypos_r == 0) return 0;
-
-//     f32 ydiff1 = ypos_m - ypos_1;
-// 	f32 ydiff2 = ypos_r - ypos_m;
+//     f32 ydiff1 = middleSurfacePos - leftSurfacePos;
+// 	f32 ydiff2 = rightSurfacePos - middleSurfacePos;
 // 	f32 ydiffavg = (ydiff1 + ydiff2) / 2;
-// 	mTargetRot = (u32)(sead::Mathf::atan2(ydiffavg, 20.0) / (2 * sead::Mathf::pi()) * 0x100000000);
+// 	mTargetRot = (u32)(sead::Mathf::atan2(ydiffavg, 10.0) / (2 * sead::Mathf::pi()) * 0x100000000);
 
 // 	return true;
 // }
+
+bool WavePlatform::updateWaveTargets() {
+    float leftedge = BgScrollMgr::instance()->getScreenRect().getMin().x;
+
+    s32 index = (s32)((mPos.x - leftedge) * 0.5 + 0.5);
+    if (index < 10 - 144 || index >= 1190 + 1140) return false;
+	
+	if (index < 10) index += 144;
+	if (index >= 1190) index -= 144;
+
+    if (Bg::instance()->getWaveSurfaceY(index + 10) == -8192.0f) {
+        index -= 144;
+    }
+
+    // tk::println("bru %u", getBgCheck()->checkWaterDepth(mPos.x + 10.0f, mPos.y + 10.0f, mLayer));
+    // Bg::instance()->getwa
+    // getBgCheck()->checkWaterDepth(mPos.x, mPos.y, mLayer);
+    f32 ypos_1, ypos_m, ypos_r;
+    ypos_m = Bg::instance()->getWaveSurfaceY(index);
+    ypos_1 = Bg::instance()->getWaveSurfaceY(index - (mWidth * 3));
+    ypos_r = Bg::instance()->getWaveSurfaceY(index + (mWidth * 3));
+
+    mTargetPos = (ypos_1 + ypos_m + ypos_r) / 3 + 4.0;
+
+    if (ypos_m == -8192 || ypos_1 == -8192 || ypos_r == -8192 || ypos_m == 0 || ypos_1 == 0 || ypos_r == 0) return 0;
+
+    f32 ydiff1 = ypos_m - ypos_1;
+	f32 ydiff2 = ypos_r - ypos_m;
+	f32 ydiffavg = (ydiff1 + ydiff2) / 2;
+	mTargetRot = (u32)(sead::Mathf::atan2(ydiffavg, (mWidth * 6)) / (2 * sead::Mathf::pi()) * 0x100000000);
+
+	return true;
+}
 
 }
