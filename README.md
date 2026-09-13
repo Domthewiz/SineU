@@ -1,7 +1,9 @@
-# RedCore-Example-Mod
+# SineU
 
 ## Overview
-This is a template repo for quickly getting a new NSMBU mod project up and running for [RedCore](https://github.com/Zenith-Team/RedCore).
+Literally just adds liquid waves and that's it.
+
+# Gotta update this for the not-so-bright folks
 
 ## Setup Guide
 ### Compiling

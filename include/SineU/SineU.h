@@ -2,7 +2,7 @@
 
 #include <red/registry/Registrar.h>
 
-namespace example {
+namespace SineU {
     
     red::Registrar* getRegistrar();
     

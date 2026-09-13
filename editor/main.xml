@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<game name="Example Mod" version="1.0" description="This is a template for RedCore">
+<game name="SineU" version="1.0" description="The patch for SineU.">
     <file name="spritedata" path="spritedata.xml" />
 </game>

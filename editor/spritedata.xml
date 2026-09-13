@@ -1,6 +1,403 @@
 <?xml version="1.0"?>
 <sprites>
-	<sprite string_id="examplemod:demo" name="Demo Actor">
-        <!-- Settings go here -->
+	<sprite string_id="SineU:water_waves" name="Water" notes="Based on the lava sprite, there should be nybbles for delays before rising/lowering, but the giant waves don't seem to work on this sprite.">
+		<value nybble="1-2" title="Triggering Event ID" comment="The ID that triggers the water to begin rising or falling." id_type="event" category="events" />
+		<value nybble="3-4" title="Target Event ID" comment="Once the water finishes rising/falling, this event is activated." id_type="event" category="events" />
+		<list bit="18-20" title="Rising Speed" category="behavior" requirednybble="5.1" requiredval="0-7">
+			<entry value="0">0.0</entry>
+			<entry value="1">1.0</entry>
+			<entry value="2">1.25</entry>
+			<entry value="3">1.5</entry>
+			<entry value="4">0.75</entry>
+			<entry value="5">0.125</entry>
+			<entry value="6">0.25</entry>
+			<entry value="7">0.5</entry>
+		</list>
+		<list bit="18-20" title="Lowering Speed" category="behavior" requirednybble="5.1" requiredval="8-15">
+			<entry value="0">0.0</entry>
+			<entry value="1">1.0</entry>
+			<entry value="2">1.25</entry>
+			<entry value="3">1.5</entry>
+			<entry value="4">0.75</entry>
+			<entry value="5">0.125</entry>
+			<entry value="6">0.25</entry>
+			<entry value="7">0.5</entry>
+		</list>
+		<dualbox bit="17" title1="Rising" title2="Falling*" comment="Falling water has buggy behaviour, once it finishes falling, it snaps up a few blocks and rises infinitely" category="behavior" />
+		<value nybble="8-9" title="Rising Height" comment="The height the water rises, in blocks." category="behavior" requirednybble="5.1" requiredval="0-7"/>
+		<value nybble="8-9" title="Lowering Height*" comment="The height the water lowers, in blocks. Falling water has buggy behaviour, once it finishes falling, it snaps up a few blocks and rises infinitely" category="behavior" requirednybble="5.1" requiredval="8-15"/>
+		<value nybble="6" title="Delay Before Lowering" comment="If the water rises/falls, this modifies the delay before lowering." category="behavior"/>
+		<value nybble="7" title="Delay Before Rising" comment="This delay before rising will only take effect after the first round of rising/lowering." category="behavior"/>
+		<list bit="40" title="Rising Type" category="behavior">
+			<entry value="0">Only rises*</entry>
+			<entry value="1">Rises and lowers</entry>
+		</list>
+		<dualbox bit="39" title1="Weak Crest Wave" title2="Strong Crest Wave" category="behavior"/>
+		<checkbox nybble="10" title="Place Behind Layer 1" mask="2" category="behavior" />
+		<checkbox nybble="10" title="Place Behind Layer 0" mask="4" category="behavior" />
+		<checkbox nybble="10" title="Topless and Invisible" mask="8" comment="The water will have no top and the water effect will cover the entire screen, but the water collision stays where the sprite is placed. Use underwater background for this." category="behavior" />
+		<value nybble="11-12" title="Location ID" id_type="location" category="behavior" />
+		<checkbox nybble="13" title="Don't Rise Slightly Before Falling" comment="If this is turned off, the water will rise up half a tile before falling." category="behavior"/>
+		<value nybble="14" title="Unknown Value 14" />
+		<value nybble="16" title="Z-order related?" category="behavior" />
+		<checkbox nybble="20" mask="1" title="Giant Waves" comment="When checked, this will create giant waves in the water." category="behavior" />
+		<list nybble="14" title="Giant Waves: Bounciness" comment="This causes the giant water waves to bounce up and down." category="behavior" requirednybble="20.4">
+			<entry value="0">16.0</entry>
+			<entry value="1">0.0</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">1.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">2.0</entry>
+			<entry value="6">2.5</entry>
+			<entry value="7">3.0</entry>
+			<entry value="8">3.5</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">4.5</entry>
+			<entry value="11">5.0</entry>
+			<entry value="12">5.5</entry>
+			<entry value="13">6.0</entry>
+			<entry value="14">6.5</entry>
+			<entry value="15">7.0</entry>
+		</list>
+		<list nybble="15" title="Giant Waves: Mini-Wave Animation Speed" comment="The speed at which the mini-waves on top of each giant wave animate." category="behavior" requirednybble="20.4">
+			<entry value="0">8.0</entry>
+			<entry value="1">-20.0</entry>
+			<entry value="2">-10.0</entry>
+			<entry value="3">-5.0</entry>
+			<entry value="4">-3.0</entry>
+			<entry value="5">-1.0</entry>
+			<entry value="6">-0.65</entry>
+			<entry value="7">-0.3</entry>
+			<entry value="8">0.0</entry>
+			<entry value="9">0.3</entry>
+			<entry value="10">0.65</entry>
+			<entry value="11">1.0</entry>
+			<entry value="12">3.0</entry>
+			<entry value="13">5.0</entry>
+			<entry value="14">10.0</entry>
+			<entry value="15">20.0</entry>
+		</list>
+		<list nybble="16" title="Giant Waves: Height of Mini-Waves" comment="This determines the height of each mini-wave on top of each giant wave." category="behavior" requirednybble="20.4">
+			<entry value="0">4</entry>
+			<entry value="1">0</entry>
+			<entry value="2">10</entry>
+			<entry value="3">20</entry>
+			<entry value="4">30</entry>
+			<entry value="5">40</entry>
+			<entry value="6">50</entry>
+			<entry value="7">60</entry>
+			<entry value="8">70</entry>
+			<entry value="9">80</entry>
+			<entry value="10">90</entry>
+			<entry value="11">100</entry>
+			<entry value="12">110</entry>
+			<entry value="13">120</entry>
+			<entry value="14">130</entry>
+			<entry value="15">140</entry>
+		</list>
+		<list nybble="17" title="Giant Waves: Width" comment="The width of each giant water wave." category="behavior" requirednybble="20.4">
+			<entry value="0">2.5</entry>
+			<entry value="1">0.0</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">1.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">2.0</entry>
+			<entry value="6">2.5</entry>
+			<entry value="7">3.0</entry>
+			<entry value="8">3.5</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">4.5</entry>
+			<entry value="11">5.0</entry>
+			<entry value="12">5.5</entry>
+			<entry value="13">6.0</entry>
+			<entry value="14">6.5</entry>
+			<entry value="15">7.0</entry>
+		</list>
+		<list nybble="18" title="Giant Waves: Speed/Direction" comment="The speed of each giant water wave. Values marked with a * cause the waves to move left instead of right." category="behavior" requirednybble="20.4">
+			<entry value="0">-0.65</entry>
+			<entry value="1">3.0</entry>
+			<entry value="2">2.5</entry>
+			<entry value="3">2.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">1.0</entry>
+			<entry value="6">0.65</entry>
+			<entry value="7">0.3</entry>
+			<entry value="8">0.0</entry>
+			<entry value="9">0.3*</entry>
+			<entry value="10">0.65*</entry>
+			<entry value="11">1.0*</entry>
+			<entry value="12">1.5*</entry>
+			<entry value="13">2.0*</entry>
+			<entry value="14">2.5*</entry>
+			<entry value="15">3.0*</entry>
+		</list>
+		<list nybble="19" title="Giant Waves: Height" comment="The height of each giant water wave, in blocks." category="behavior" requirednybble="20.4">
+			<entry value="0">60</entry>
+			<entry value="1">0</entry>
+			<entry value="2">10</entry>
+			<entry value="3">20</entry>
+			<entry value="4">30</entry>
+			<entry value="5">40</entry>
+			<entry value="6">50</entry>
+			<entry value="7">60</entry>
+			<entry value="8">70</entry>
+			<entry value="9">80</entry>
+			<entry value="10">90</entry>
+			<entry value="11">100</entry>
+			<entry value="12">110</entry>
+			<entry value="13">120</entry>
+			<entry value="14">130</entry>
+			<entry value="15">140</entry>
+		</list>
+	</sprite>
+	<sprite string_id="SineU:quicksand_waves" name="Quicksand Waves" notes="Once Mario steps in, he will start sinking. Doesn't hurt him to stay inside of it, though.&#13;&#10;&#13;&#10;If you use a location, make sure it sticks 5 blocks below the zone, or else it will not make the player die.">
+		<checkbox nybble="10" title="Unknown Checkbox 10 Mask 4" mask="4" />
+		<checkbox nybble="10" title="Topless" mask="8" comment="&lt;br&gt;Checking this removes the animated crest effect on the top portion of the Sprite. Creates a 'square' look. &lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; Only use with a flat ceiling or else will look strange." category="behavior" />
+		<value nybble="11-12" title="Location ID" comment="&lt;br&gt;Match with a Location to set the Area of this Sprite." id_type="location" category="behavior" />
+		<checkbox nybble="20" mask="1" title="Giant Waves" comment="When checked, this will create giant waves in the quicksand." category="behavior" />
+		<list nybble="14" title="Giant Waves: Bounciness" comment="This causes the giant quicksand waves to bounce up and down." category="behavior" requirednybble="20.4">
+			<entry value="0">16.0</entry>
+			<entry value="1">0.0</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">1.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">2.0</entry>
+			<entry value="6">2.5</entry>
+			<entry value="7">3.0</entry>
+			<entry value="8">3.5</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">4.5</entry>
+			<entry value="11">5.0</entry>
+			<entry value="12">5.5</entry>
+			<entry value="13">6.0</entry>
+			<entry value="14">6.5</entry>
+			<entry value="15">7.0</entry>
+		</list>
+		<list nybble="15" title="Giant Waves: Mini-Wave Animation Speed" comment="The speed at which the mini-waves on top of each giant wave animate." category="behavior" requirednybble="20.4">
+			<entry value="0">8.0</entry>
+			<entry value="1">-20.0</entry>
+			<entry value="2">-10.0</entry>
+			<entry value="3">-5.0</entry>
+			<entry value="4">-3.0</entry>
+			<entry value="5">-1.0</entry>
+			<entry value="6">-0.65</entry>
+			<entry value="7">-0.3</entry>
+			<entry value="8">0.0</entry>
+			<entry value="9">0.3</entry>
+			<entry value="10">0.65</entry>
+			<entry value="11">1.0</entry>
+			<entry value="12">3.0</entry>
+			<entry value="13">5.0</entry>
+			<entry value="14">10.0</entry>
+			<entry value="15">20.0</entry>
+		</list>
+		<list nybble="16" title="Giant Waves: Height of Mini-Waves" comment="This determines the height of each mini-wave on top of each giant wave." category="behavior" requirednybble="20.4">
+			<entry value="0">4</entry>
+			<entry value="1">0</entry>
+			<entry value="2">10</entry>
+			<entry value="3">20</entry>
+			<entry value="4">30</entry>
+			<entry value="5">40</entry>
+			<entry value="6">50</entry>
+			<entry value="7">60</entry>
+			<entry value="8">70</entry>
+			<entry value="9">80</entry>
+			<entry value="10">90</entry>
+			<entry value="11">100</entry>
+			<entry value="12">110</entry>
+			<entry value="13">120</entry>
+			<entry value="14">130</entry>
+			<entry value="15">140</entry>
+		</list>
+		<list nybble="17" title="Giant Waves: Width" comment="The width of each giant quicksand wave." category="behavior" requirednybble="20.4">
+			<entry value="0">2.5</entry>
+			<entry value="1">0.0</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">1.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">2.0</entry>
+			<entry value="6">2.5</entry>
+			<entry value="7">3.0</entry>
+			<entry value="8">3.5</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">4.5</entry>
+			<entry value="11">5.0</entry>
+			<entry value="12">5.5</entry>
+			<entry value="13">6.0</entry>
+			<entry value="14">6.5</entry>
+			<entry value="15">7.0</entry>
+		</list>
+		<list nybble="18" title="Giant Waves: Speed/Direction" comment="The speed of each giant quicksand wave. Values marked with a * cause the waves to move left instead of right." category="behavior" requirednybble="20.4">
+			<entry value="0">-0.65</entry>
+			<entry value="1">3.0</entry>
+			<entry value="2">2.5</entry>
+			<entry value="3">2.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">1.0</entry>
+			<entry value="6">0.65</entry>
+			<entry value="7">0.3</entry>
+			<entry value="8">0.0</entry>
+			<entry value="9">0.3*</entry>
+			<entry value="10">0.65*</entry>
+			<entry value="11">1.0*</entry>
+			<entry value="12">1.5*</entry>
+			<entry value="13">2.0*</entry>
+			<entry value="14">2.5*</entry>
+			<entry value="15">3.0*</entry>
+		</list>
+		<list nybble="19" title="Giant Waves: Height" comment="The height of each giant quicksand wave, in blocks." category="behavior" requirednybble="20.4">
+			<entry value="0">60</entry>
+			<entry value="1">0</entry>
+			<entry value="2">10</entry>
+			<entry value="3">20</entry>
+			<entry value="4">30</entry>
+			<entry value="5">40</entry>
+			<entry value="6">50</entry>
+			<entry value="7">60</entry>
+			<entry value="8">70</entry>
+			<entry value="9">80</entry>
+			<entry value="10">90</entry>
+			<entry value="11">100</entry>
+			<entry value="12">110</entry>
+			<entry value="13">120</entry>
+			<entry value="14">130</entry>
+			<entry value="15">140</entry>
+		</list>
+	</sprite>
+	<sprite string_id="SineU:poison_waves" name="Poison Water Waves" notes="Water that is &lt;font color=&quot;purple&quot;&gt;poisonous&lt;/font&gt;. Kills the player upon touch.">
+		<list bit="18-20" title="Rising Speed" category="behavior" requirednybble="5.1" requiredval="0-7">
+			<entry value="0">0.0</entry>
+			<entry value="1">1.0</entry>
+			<entry value="2">1.25</entry>
+			<entry value="3">1.5</entry>
+			<entry value="4">0.75</entry>
+			<entry value="5">0.125</entry>
+			<entry value="6">0.25</entry>
+			<entry value="7">0.5</entry>
+		</list>
+		<list bit="18-20" title="Lowering Speed" category="behavior" requirednybble="5.1" requiredval="8-15">
+			<entry value="0">0.0</entry>
+			<entry value="1">1.0</entry>
+			<entry value="2">1.25</entry>
+			<entry value="3">1.5</entry>
+			<entry value="4">0.75</entry>
+			<entry value="5">0.125</entry>
+			<entry value="6">0.25</entry>
+			<entry value="7">0.5</entry>
+		</list>
+		<dualbox bit="17" title1="Rising" title2="Falling" category="behavior" />
+		<value nybble="6" title="Delay Before Lowering" comment="If the poison water rises/falls, this modifies the delay before lowering." category="behavior" requirednybble="8-9"/>
+		<value nybble="7" title="Delay Before Rising" comment="This delay before rising will only take effect after the first round of rising/lowering." category="behavior" requirednybble="8-9"/>
+		<checkbox nybble="10" title="Topless" mask="8" comment="The poison water will have no top, but will be fully functional." category="behavior" />
+		<value nybble="11-12" title="Location ID" id_type="location" category="behavior" />
+		<checkbox nybble="20" mask="1" title="Giant Waves" comment="When checked, this will create giant waves in the poison water." category="behavior" />
+		<list nybble="14" title="Giant Waves: Bounciness" comment="This causes the giant poison water waves to bounce up and down." category="behavior" requirednybble="20.4">
+			<entry value="0">16.0</entry>
+			<entry value="1">0.0</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">1.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">2.0</entry>
+			<entry value="6">2.5</entry>
+			<entry value="7">3.0</entry>
+			<entry value="8">3.5</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">4.5</entry>
+			<entry value="11">5.0</entry>
+			<entry value="12">5.5</entry>
+			<entry value="13">6.0</entry>
+			<entry value="14">6.5</entry>
+			<entry value="15">7.0</entry>
+		</list>
+		<list nybble="15" title="Giant Waves: Mini-Wave Animation Speed" comment="The speed at which the mini-waves on top of each giant wave animate." category="behavior" requirednybble="20.4">
+			<entry value="0">8.0</entry>
+			<entry value="1">-20.0</entry>
+			<entry value="2">-10.0</entry>
+			<entry value="3">-5.0</entry>
+			<entry value="4">-3.0</entry>
+			<entry value="5">-1.0</entry>
+			<entry value="6">-0.65</entry>
+			<entry value="7">-0.3</entry>
+			<entry value="8">0.0</entry>
+			<entry value="9">0.3</entry>
+			<entry value="10">0.65</entry>
+			<entry value="11">1.0</entry>
+			<entry value="12">3.0</entry>
+			<entry value="13">5.0</entry>
+			<entry value="14">10.0</entry>
+			<entry value="15">20.0</entry>
+		</list>
+		<list nybble="16" title="Giant Waves: Height of Mini-Waves" comment="This determines the height of each mini-wave on top of each giant wave." category="behavior" requirednybble="20.4">
+			<entry value="0">4</entry>
+			<entry value="1">0</entry>
+			<entry value="2">10</entry>
+			<entry value="3">20</entry>
+			<entry value="4">30</entry>
+			<entry value="5">40</entry>
+			<entry value="6">50</entry>
+			<entry value="7">60</entry>
+			<entry value="8">70</entry>
+			<entry value="9">80</entry>
+			<entry value="10">90</entry>
+			<entry value="11">100</entry>
+			<entry value="12">110</entry>
+			<entry value="13">120</entry>
+			<entry value="14">130</entry>
+			<entry value="15">140</entry>
+		</list>
+		<list nybble="17" title="Giant Waves: Width" comment="The width of each giant poison water wave." category="behavior" requirednybble="20.4">
+			<entry value="0">2.5</entry>
+			<entry value="1">0.0</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">1.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">2.0</entry>
+			<entry value="6">2.5</entry>
+			<entry value="7">3.0</entry>
+			<entry value="8">3.5</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">4.5</entry>
+			<entry value="11">5.0</entry>
+			<entry value="12">5.5</entry>
+			<entry value="13">6.0</entry>
+			<entry value="14">6.5</entry>
+			<entry value="15">7.0</entry>
+		</list>
+		<list nybble="18" title="Giant Waves: Speed/Direction" comment="The speed of each giant poison water wave. Values marked with a * cause the waves to move left instead of right." category="behavior" requirednybble="20.4">
+			<entry value="0">-0.65</entry>
+			<entry value="1">3.0</entry>
+			<entry value="2">2.5</entry>
+			<entry value="3">2.0</entry>
+			<entry value="4">1.5</entry>
+			<entry value="5">1.0</entry>
+			<entry value="6">0.65</entry>
+			<entry value="7">0.3</entry>
+			<entry value="8">0.0</entry>
+			<entry value="9">0.3*</entry>
+			<entry value="10">0.65*</entry>
+			<entry value="11">1.0*</entry>
+			<entry value="12">1.5*</entry>
+			<entry value="13">2.0*</entry>
+			<entry value="14">2.5*</entry>
+			<entry value="15">3.0*</entry>
+		</list>
+		<list nybble="19" title="Giant Waves: Height" comment="The height of each giant poison water wave, in blocks." category="behavior" requirednybble="20.4">
+			<entry value="0">60</entry>
+			<entry value="1">0</entry>
+			<entry value="2">10</entry>
+			<entry value="3">20</entry>
+			<entry value="4">30</entry>
+			<entry value="5">40</entry>
+			<entry value="6">50</entry>
+			<entry value="7">60</entry>
+			<entry value="8">70</entry>
+			<entry value="9">80</entry>
+			<entry value="10">90</entry>
+			<entry value="11">100</entry>
+			<entry value="12">110</entry>
+			<entry value="13">120</entry>
+			<entry value="14">130</entry>
+			<entry value="15">140</entry>
+		</list>
 	</sprite>
 </sprites>

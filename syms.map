@@ -1,3 +1,25 @@
 @addresses_from "00050000-10101D00" // US v1.3.0 (v64)
 
-// If your mod uses symbols that aren't in RedCore, you can add them here.
+// Bg
+    _ZN2Bg9sInstanceE = 0x101DAB94;
+    
+// BgActorBase
+    _ZN11BgActorBase7execute = 0x026F0E9C;
+    _ZN11BgActorBaseD1Ev = 0x026F36E8;
+    _ZN11BgActorBase7executeEv = 0x026F0E9C;
+
+// Wave
+    _ZN4Wave10updateWaveEv = 0x028B8E64;
+
+// Water
+    _ZN5WaterC2ERK16ActorCreateParam = 0x026F7C90;
+    _ZN5Water9sTypeInfoE = 0x100FE43C;
+
+// Poison
+    _ZN6PoisonC1ERK16ActorCreateParam = 0x026F5F70;
+
+// Quicksand
+    _ZN9QuicksandC1ERK16ActorCreateParam = 0x026F6E78;
+
+// Lava
+    setWaveParam = 0x028B74F4;

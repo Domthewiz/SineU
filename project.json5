@@ -1,10 +1,10 @@
 {
     WURPLSVersion: "1.0",
     
-    Name: "ExampleMod",
+    Name: "wavyliqUids",
     Type: "Standard",
     Version: "1.0.0",
-    Description: "This is the RedCore example mod!",
+    Description: "Adds liquid waves to NSMBU",
     
     SourceDirs: [
         "src"
